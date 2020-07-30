@@ -51,7 +51,7 @@ export default {
    */
   plugins: [
     { src: "~/plugins/idlock.js", mode: "client" },
-    { src: "~/plugins/clipboard-copy.js", mode: "client" },
+    "~/plugins/clipboard-copy.js",
   ],
   /*
    ** Auto import components
