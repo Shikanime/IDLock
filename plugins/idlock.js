@@ -1,40 +1,57 @@
 import Box from "3box"
-import _ from "lodash"
 
 export default (ctx, inject) => {
   inject("idlock", {
     box: null,
     space: null,
-    async connect() {
+    async login() {
+      ctx.store.commit("SET_CONNECTING")
+
       const accounts = await window.ethereum.enable()
-      this.box = await Box.openBox(accounts[0], window.ethereum)
-      this.space = await this.box.openSpace("IDLock")
+      const address = accounts[0]
+      const provider = window.ethereum
+
+      this.box = await Box.openBox(address, provider)
+      this.space = await this.box.openSpace(process.env["3BOX_SPACE_NAME"])
+
       ctx.store.commit("SET_CONNECTED")
+      ctx.store.commit("UNSET_CONNECTING")
     },
-    async getAvatarUrl() {
+    async logout() {
+      await this.box.logout()
+      ctx.store.commit("UNSET_CONNECTED")
+    },
+    async fetchProfile() {
+      const name = await this.box.public.get("name")
       const images = await this.box.public.get("image")
       const avatarImage = images[0]
       const avatarImageRootUrl = avatarImage.contentUrl["/"]
-      return `https://ipfs.infura.io/ipfs/${avatarImageRootUrl}`
+      const avatar = `${process.env.IPFS_URL}/${avatarImageRootUrl}`
+
+      ctx.store.commit("SET_PROFILE", { name, avatar })
     },
-    getName() {
-      return this.box.public.get("name")
-    },
-    async getLogin(name) {
+    async fetchLogin(name) {
       const login = await this.space.private.get(name)
-      return JSON.parse(login)
+      ctx.store.commit("ADD_LOGIN", { name, ...JSON.parse(login) })
     },
-    async listLogins() {
-      const logins = await this.space.private.all()
-      return _.mapValues(logins, (login) => JSON.parse(login))
+    async fetchLogins() {
+      Object.entries(await this.space.private.all()).forEach(([name, l]) => {
+        ctx.store.commit("ADD_LOGIN", { name, ...JSON.parse(l) })
+      })
     },
-    async createLogin({ name, username, password }) {
-      const payload = JSON.stringify({ username, password })
-      const isSuccess = await this.space.private.set(name, payload)
-      if (isSuccess) {
-        return { name, username, password }
-      } else {
-        return new Error("couldn't create new login")
+    async createLogin(login) {
+      const payload = JSON.stringify({
+        username: login.username,
+        password: login.password,
+      })
+
+      if (await this.space.private.set(login.name, payload)) {
+        ctx.store.commit("ADD_LOGIN", login)
+      }
+    },
+    async removeLogin(name) {
+      if (await this.space.private.remove(name)) {
+        ctx.store.commit("REMOVE_LOGIN", name)
       }
     },
   })

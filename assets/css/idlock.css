@@ -1,0 +1,49 @@
+.idl-input {
+  @apply w-full;
+  @apply px-4;
+  @apply py-2;
+  @apply leading-tight;
+  @apply text-gray-700;
+  @apply bg-gray-200;
+  @apply border-2;
+  @apply border-gray-200;
+  @apply rounded;
+  @apply appearance-none;
+}
+.idl-input:focus {
+  @apply outline-none;
+  @apply bg-white;
+  @apply border-purple-500;
+}
+
+.idl-input-label {
+  @apply block;
+  @apply pr-4;
+  @apply font-bold;
+  @apply text-right;
+  @apply text-gray-500;
+}
+
+.idl-input-error {
+  @apply h-6;
+  @apply text-xs;
+  @apply italic;
+  @apply text-red-500;
+}
+
+.idl-button {
+  @apply px-8;
+  @apply py-2;
+  @apply font-bold;
+  @apply text-white;
+  @apply bg-purple-500;
+  @apply rounded;
+  @apply shadow;
+}
+.idl-button:hover {
+  @apply bg-purple-500;
+}
+.idl-button:focus {
+  @apply shadow-outline;
+  @apply outline-none;
+}

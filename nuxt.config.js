@@ -29,7 +29,22 @@ export default {
   /*
    ** Global CSS
    */
+  loading: {
+    color: "#9f7aea",
+    height: "5px",
+    continuous: true,
+  },
+  /*
+   ** Global CSS
+   */
   css: [],
+  /*
+   ** Application environment variables
+   */
+  env: {
+    "3BOX_SPACE_NAME": "IDLock",
+    IPFS_URL: process.env.IPFS_URL || "https://ipfs.infura.io/ipfs",
+  },
   /*
    ** Plugins to load before mounting the App
    ** https://nuxtjs.org/guide/plugins
