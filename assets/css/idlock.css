@@ -15,6 +15,9 @@
   @apply bg-white;
   @apply border-purple-500;
 }
+.idl-input--error {
+  @apply border-red-500;
+}
 
 .idl-input-label {
   @apply block;
@@ -24,7 +27,7 @@
   @apply text-gray-500;
 }
 
-.idl-input-error {
+.idl-input-status {
   @apply h-6;
   @apply text-xs;
   @apply italic;

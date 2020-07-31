@@ -6,7 +6,7 @@
           Create New Login
         </h2>
       </div>
-      <form class="flex flex-col gap-4 pt-5" @submit.prevent="submit">
+      <form class="flex flex-col gap-4 pt-5" @submit.prevent="handleSubmit">
         <div class="flex flex-col gap-2">
           <div class="flex items-center">
             <div class="w-2/12">
@@ -18,11 +18,11 @@
               <input
                 id="name"
                 v-model="name"
-                :class="errors.name ? ['border-red-500'] : []"
+                :class="errors.name ? ['idl-input--error'] : []"
                 class="idl-input"
                 type="text"
               />
-              <div class="idl-input-error">
+              <div class="idl-input-status">
                 {{ errors.name }}
               </div>
             </div>
@@ -38,11 +38,11 @@
               <input
                 id="username"
                 v-model="username"
-                :class="errors.username ? ['border-red-500'] : []"
+                :class="errors.username ? ['idl-input--error'] : []"
                 class="idl-input"
                 type="text"
               />
-              <div class="idl-input-error">
+              <div class="idl-input-status">
                 {{ errors.username }}
               </div>
             </div>
@@ -58,11 +58,11 @@
               <input
                 id="password"
                 v-model="password"
-                :class="errors.password ? ['border-red-500'] : []"
+                :class="errors.password ? ['idl-input--error'] : []"
                 class="idl-input"
                 type="password"
               />
-              <div class="idl-input-error">
+              <div class="idl-input-status">
                 {{ errors.password }}
               </div>
             </div>
@@ -72,12 +72,7 @@
         <div class="flex items-center">
           <div class="w-2/12"></div>
           <div class="flex w-10/12 gap-5">
-            <input
-              class="idl-button"
-              type="submit"
-              :class="errors.px ? ['border-red-500'] : []"
-              value="Save"
-            />
+            <input class="idl-button" type="submit" value="Save" />
             <button class="idl-button" @click="$router.push('/')">
               Cancel
             </button>
